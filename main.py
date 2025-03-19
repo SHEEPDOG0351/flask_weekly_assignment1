@@ -25,6 +25,7 @@ def getBoat():
 def createBoat():
     try:
         conn.execute(text('insert into boats values(:id, :name, :type, :owner_id, :rental_price)'), request.form)
+        conn.commit()
         return render_template('boat_creation.html', error = None, success = 'Successfull')
     except:
         return render_template('boat_creation.html', error = 'failed', success = None)
@@ -32,6 +33,46 @@ def createBoat():
 @app.route('/search')
 def search():
     return render_template('search.html')
+
+@app.route('/searchResults', methods=['GET'])
+def search_results():
+    search_query = {
+        "id": request.args.get("id", "").strip(),
+        "name": request.args.get("name", "").strip(),
+        "type": request.args.get("type", "").strip(),
+        "owner_id": request.args.get("owner_id", "").strip(),
+        "rental_price": request.args.get("rental_price", "").strip()
+    }
+
+    # Convert numeric values to the correct data type
+    params = {}
+    query = "SELECT * FROM boats WHERE 1=1"
+
+    if search_query["id"]:
+        query += " AND id = :id"
+        params["id"] = int(search_query["id"])  # Convert to int
+
+    if search_query["name"]:
+        query += " AND name LIKE :name"
+        params["name"] = f"%{search_query['name']}%"
+
+    if search_query["type"]:
+        query += " AND type LIKE :type"
+        params["type"] = f"%{search_query['type']}%"
+
+    if search_query["owner_id"]:
+        query += " AND owner_id = :owner_id"
+        params["owner_id"] = int(search_query["owner_id"])  # Convert to int
+
+    if search_query["rental_price"]:
+        query += " AND ROUND(rental_price, 3) = ROUND(:rental_price, 3)"
+        params["rental_price"] = float(search_query["rental_price"])  # Convert to float
+
+    boats = conn.execute(text(query), params).fetchall()
+
+    return render_template('boats.html', boats=boats)
+
+
 
 @app.route('/<name>')
 def greetings(name):

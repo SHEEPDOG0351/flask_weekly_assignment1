@@ -1,22 +1,19 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
 {% block body %}
-    {% for boat in boats %}
-        <ul>
-            <li>{{boat[0]}}</li>
-            <li>{{boat[1]}}</li>
-            <li>{{boat[2]}}</li>
-            <li>{{boat[3]}}</li>
-            <li>{{boat[4]}}</li>
-        </ul>
-    {% endfor %}
-
-
-
-
-
-
-
-
-
+    <h1>Search Results</h1>
+    
+    {% if boats %}
+        {% for boat in boats %}
+            <ul>
+                <li><strong>ID:</strong> {{ boat[0] }}</li>
+                <li><strong>Name:</strong> {{ boat[1] }}</li>
+                <li><strong>Type:</strong> {{ boat[2] }}</li>
+                <li><strong>Owner ID:</strong> {{ boat[3] }}</li>
+                <li><strong>Rental Price: </strong> {{ boat[4] }}</li>
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>No boats found matching your search.</p>
+    {% endif %}
 {% endblock %}
