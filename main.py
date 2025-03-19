@@ -29,6 +29,9 @@ def createBoat():
     except:
         return render_template('boat_creation.html', error = 'failed', success = None)
 
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 @app.route('/<name>')
 def greetings(name):
