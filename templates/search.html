@@ -1,0 +1,66 @@
+<style>
+    .body {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .div_form {
+        width: 15%;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .boat-form input {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    #top {
+        margin-top: 15px;
+    }
+
+    .submit_button {
+        background-color: #4CAF50;
+        text-align: center;
+        padding: 10px 5px;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        width: 200px;
+    }
+
+    .submit_button:hover {
+        transition: 0.2s ease-in;
+        background-color: white;
+        color: black;
+    }
+</style>
+
+{% extends "base.html" %}
+{% block body %}
+    <div class="body">
+        <h1>Enter Boat Information Below</h1>
+
+        <div class="div_form">
+            <form action="" class="boat-form">
+                <input type="text" placeholder="ID" id="top">
+                <input type="text" placeholder="Boat Name">
+                <input type="text" placeholder="Boat Type">
+                <input type="text" placeholder="Owner ID">
+                <input type="text" placeholder="Rental Price">
+            </form>
+            <button class="submit_button">Submit</button>
+        </div>
+    </div>
+{% endblock %}
