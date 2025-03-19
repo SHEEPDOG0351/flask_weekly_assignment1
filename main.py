@@ -50,7 +50,7 @@ def search_results():
 
     if search_query["id"]:
         query += " AND id = :id"
-        params["id"] = int(search_query["id"])  # Convert to int
+        params["id"] = int(search_query["id"]) 
 
     if search_query["name"]:
         query += " AND name LIKE :name"
@@ -62,11 +62,11 @@ def search_results():
 
     if search_query["owner_id"]:
         query += " AND owner_id = :owner_id"
-        params["owner_id"] = int(search_query["owner_id"])  # Convert to int
+        params["owner_id"] = int(search_query["owner_id"]) 
 
     if search_query["rental_price"]:
         query += " AND ROUND(rental_price, 3) = ROUND(:rental_price, 3)"
-        params["rental_price"] = float(search_query["rental_price"])  # Convert to float
+        params["rental_price"] = float(search_query["rental_price"])
 
     boats = conn.execute(text(query), params).fetchall()
 
