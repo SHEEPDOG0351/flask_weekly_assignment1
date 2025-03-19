@@ -53,14 +53,14 @@
         <h1>Enter Boat Information Below</h1>
 
         <div class="div_form">
-            <form action="" class="boat-form">
-                <input type="text" placeholder="ID" id="top">
-                <input type="text" placeholder="Boat Name">
-                <input type="text" placeholder="Boat Type">
-                <input type="text" placeholder="Owner ID">
-                <input type="text" placeholder="Rental Price">
+            <form action="/searchResults" method="GET" class="boat-form"> <!--Uses search results within the action attirbute to call said method-->
+                <input type="text" name="id" placeholder="ID" id="top">
+                <input type="text" name="name" placeholder="Boat Name">
+                <input type="text" name="type" placeholder="Boat Type">
+                <input type="text" name="owner_id" placeholder="Owner ID">
+                <input type="text" name="rental_price" placeholder="Rental Price">
+                <button type="submit" class="submit_button">Search</button>
             </form>
-            <button class="submit_button">Submit</button>
         </div>
     </div>
 {% endblock %}
