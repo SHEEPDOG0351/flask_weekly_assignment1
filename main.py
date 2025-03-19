@@ -72,6 +72,29 @@ def search_results():
 
     return render_template('boats.html', boats=boats)
 
+@app.route('/delete', methods=['GET', 'POST'])
+def delete_item():
+    if request.method == 'POST':
+        boat_id = request.form.get("boat_id")  # Get ID from form input
+
+        if not boat_id:
+            return render_template('delete.html', error="Please enter a Boat ID.")
+
+        try:
+            boat_id = int(boat_id)  # Ensure it's an integer
+            result = conn.execute(text("DELETE FROM boats WHERE id = :id"), {"id": boat_id})
+            conn.commit()  # Save changes
+
+            if result.rowcount > 0:
+                return render_template('delete.html', success=f"Boat with ID {boat_id} deleted.")
+            else:
+                return render_template('delete.html', error=f"No boat found with ID {boat_id}.")
+
+        except Exception as e:
+            return render_template('delete.html', error=f"Error deleting boat: {e}")
+
+    return render_template('delete.html')  # Show delete page on GET request
+
 
 
 @app.route('/<name>')
