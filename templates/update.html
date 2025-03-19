@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Add a New Boat!</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if success %}
+        <p style="color: green;">{{ success }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('update_item') }}" method="POST">
+        <label for="name">Boat Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="type">Boat Type:</label>
+        <input type="text" name="type" required>
+
+        <label for="owner_id">Owner ID:</label>
+        <input type="number" name="owner_id" required>
+
+        <label for="rental_price">Rental Price:</label>
+        <input type="number" name="rental_price" step="0.01" required>
+
+        <button type="submit">Add Boat</button>
+    </form>
+{% endblock %}

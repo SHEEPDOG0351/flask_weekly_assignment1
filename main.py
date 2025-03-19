@@ -95,6 +95,45 @@ def delete_item():
 
     return render_template('delete.html')  # Show delete page on GET request
 
+@app.route('/update', methods=['GET', 'POST'])
+def update_item():
+    if request.method == 'GET':
+        return render_template("update.html")  # Show the update form
+
+    try:
+        # Fetch current highest ID
+        result = conn.execute(text("SELECT MAX(id) FROM boats"))
+        max_id = result.scalar()  # Get the highest ID
+        new_id = (max_id + 1) if max_id else 1  # If no rows exist, start at 1
+
+        # Get data from form
+        boat_name = request.form.get("name", "").strip()
+        boat_type = request.form.get("type", "").strip()
+        owner_id = request.form.get("owner_id", "").strip()
+        rental_price = request.form.get("rental_price", "").strip()
+
+        # Ensure required fields are not empty
+        if not boat_name or not boat_type or not owner_id or not rental_price:
+            return render_template("update.html", error="All fields are required.")
+
+        # Convert necessary values
+        owner_id = int(owner_id)
+        rental_price = float(rental_price)
+
+        # Insert new boat with auto-incremented ID
+        conn.execute(text("""
+            INSERT INTO boats (id, name, type, owner_id, rental_price)
+            VALUES (:id, :name, :type, :owner_id, :rental_price)
+        """), {"id": new_id, "name": boat_name, "type": boat_type, "owner_id": owner_id, "rental_price": rental_price})
+        
+        conn.commit()  # Save changes
+
+        print(f"Current max ID: {max_id}, New ID: {new_id}")
+
+        return render_template("update.html", success=f"Boat added successfully with ID {new_id}.")
+
+    except Exception as e:
+        return render_template("update.html", error=f"Error adding boat: {e}")
 
 
 @app.route('/<name>')
